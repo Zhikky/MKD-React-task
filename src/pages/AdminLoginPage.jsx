@@ -27,8 +27,16 @@ const AdminLoginPage = () => {
 
   const onSubmit = async (data) => {
     let sdk = new MkdSDK();
-    //TODO
+    try {
+      const response = await sdk.login(data.email, data.password, "admin");
+      localStorage.setItem("token", response.token);
+      dispatch({ type: "LOGIN_SUCCESS" });
+      navigate("/admin/dashboard");
+    } catch (error) {
+      setError("email", { message: error.message });
+    }
   };
+
 
   return (
     <div className="w-full max-w-xs mx-auto">
